@@ -1,0 +1,22 @@
+.register__link {
+  width: 358px;
+  background-color: white;
+  color: black;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  padding: 14px 84px 14px 84px;
+  box-sizing: border-box;
+  max-height: 50px;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  transition: opacity .3s linear;
+  margin-top: 186px;
+}
+
+.register__link:hover {
+  opacity: 0.85;
+}

@@ -1,0 +1,23 @@
+.profile__info {
+  max-width: 336px;
+  display: grid;
+  grid-template-columns: 294px 42px;
+  grid-template-rows: 50px 50px;
+  padding-top: 20px;
+  grid-template-areas:
+  "name button"
+  "profession .";
+}
+
+@media screen and (max-width: 700px) {
+  .profile__info {
+    padding-top: 0;
+    grid-template-areas:
+  "name button"
+  "profession profession";
+    grid-template-columns: 218px 27px;
+    grid-template-rows: 39px 14px;
+    align-items: start;
+    justify-items: center;
+  }
+}

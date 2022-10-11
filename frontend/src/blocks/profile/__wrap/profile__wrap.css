@@ -1,0 +1,32 @@
+.profile__wrap {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  margin-right: 30px;
+  position: relative;
+  cursor: pointer;
+}
+
+.profile__wrap::before {
+  content: "";
+  background: #000;
+  background-image: url('../../../images/pen.png');
+  background-size: auto;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.3s linear;
+  display: none;
+}
+
+.profile__wrap:hover::before {
+  opacity: 0.8;
+  display: block;
+}

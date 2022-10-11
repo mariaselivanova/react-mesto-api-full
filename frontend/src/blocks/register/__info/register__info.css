@@ -1,0 +1,8 @@
+.register__info {
+  display: flex;
+  flex-direction: row;
+  width: 358px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
