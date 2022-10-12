@@ -62,7 +62,7 @@ class Api {
   //Добавить или удалить лайк.
   changeLikeCardStatus(id, isLiked) {
     return fetch(`${this._url}cards/${id}/likes`, {
-      method: !isLiked ? 'DELETE' : 'PUT',
+      method: isLiked ? 'PUT' : 'DELETE',
       credentials: 'include',
       headers: this._headers,
     }).then((res) => this._handleRes(res))

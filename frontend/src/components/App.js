@@ -33,13 +33,16 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    Promise.all([api.getAllCards(), api.handleUserInfo()])
-      .then(([cards, userInfo]) => {
-        setCards(cards);
-        setCurrentUser(userInfo);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    if (isLoggedIn) {
+      api._headers.authorization = `Bearer ${localStorage.getItem('jwt')}`
+      Promise.all([api.getAllCards(), api.handleUserInfo()])
+        .then(([cards, userInfo]) => {
+          setCards(cards);
+          setCurrentUser(userInfo);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [isLoggedIn]);
 
 
   useEffect(() => {
@@ -59,6 +62,8 @@ function App() {
         if (res) {
           setIsLoggedIn(true);
           setUserEmail(res.email);
+          setCurrentUser(res);
+          navigate('/');
         }
       })
         .catch((err) => console.log(err))
@@ -66,14 +71,17 @@ function App() {
   }
 
   function handleLogin(password, email) {
-    Auth.authorize(password, email).then((res) => {
-      if (res) {
-        localStorage.setItem("jwt", res.token);
-        navigate("/");
-        setIsLoggedIn(true);
-        setUserEmail(email);
-      }
-    })
+    Auth.authorize(password, email)
+      .then((data) => {
+        localStorage.setItem('jwt', data.token);
+        Auth.checkToken(data.token)
+          .then((res) => {
+            setIsLoggedIn(true);
+            setUserEmail(res.email);
+            setCurrentUser(res);
+            navigate('/');
+          })
+      })
       .catch((err) => console.log(err))
   }
 
@@ -99,21 +107,24 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i === currentUser._id);
-    api.changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-      })
-      .catch((err) => console.log(err));
-  };
+    const likes = card.likes;
+    const checkIfLiked = (c) => c === currentUser._id;
+    const isLiked = likes.some(checkIfLiked);
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   function handleCardDelete(card) {
     api.deleteCard(card._id)
       .then(() => {
-        setCards((state) => state.filter((c) => (c._id !== card._id)),
-      )})
-      .catch((err) => console.log(err));
-  };
+        setCards((state) => state.filter((currentCard) => currentCard._id !== card._id))
+      })
+      .catch((err) => console.log(err))
+  }
 
   function handleAddPlaceSubmit(name, link) {
     api.addNewCard(name, link)
