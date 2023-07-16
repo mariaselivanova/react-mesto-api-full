@@ -17,8 +17,4 @@
   HTML  
   CSS  
   Figma  
-  
-IP 178.154.207.126  
-Frontend https://mestoproject.nomoredomains.icu  
-Backend https://api.mestoproject.nomoredomains.icu  
-Репозиторий проекта: https://github.com/mariaselivanova/react-mesto-api-full  
+
